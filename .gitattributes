@@ -1,0 +1,5 @@
+.editorconfig export-ignore
+gulpfile.js export-ignore
+Makefile export-ignore
+package-lock.json export-ignore
+package.json export-ignore

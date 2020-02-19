@@ -1,0 +1,418 @@
+<!doctype html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<title>{{- if .Info.Name }}  {{ .Info.Name }} 's CV {{ end }}</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap" >
+	<link rel="stylesheet" href="style.css" >
+	<link rel="stylesheet" media="print" href="style-print.css"  >
+</head>
+<body>
+
+<div class="wrapper">
+	{{ with .Info }}
+		<header>
+		{{ if .Name }} <h1> {{ .Name }} </h1> {{ end }}
+		{{ if .Label }} <h3> {{ .Label }} </h3> {{ end }}
+		{{ if .Summary }} <div> {{ .Summary }} </div> {{ end }}
+
+		</header>
+	{{ end }}
+
+	<main>
+
+	{{/* Block: Works ----------------------------------- Start */}}
+	{{ if .Works }}
+	<section class="works">
+		<h2>Experience</h2>
+		{{ range .Works }}
+			<article>
+			<h3>{{.Company}}</h3>
+			{{ if or .StartDate .EndDate }}
+				<div class="date">
+					{{ if and .StartDate .EndDate }}
+						<span class="startDate">{{.StartDate}}</span>
+						<span class="endDate">- {{.EndDate}}</span>
+
+					{{ else if .StartDate }}
+						<span class="startDate">{{.StartDate}}</span>
+						<span class="endDate">- Present</span>
+
+					{{ else if .EndDate }}
+						<span class="endDate">{{.EndDate}}</span>
+					{{ end }}
+				</div>
+			{{ end }}
+
+			{{ if .Position -}}
+				<div class="position"> {{ .Position }} </div>
+			{{- end }}
+			{{ if .Website -}}
+				<div class="website"> {{ .Website }} </div>
+			{{- end }}
+			{{ if .Summary -}}
+				<div class="summary"> {{ .Summary }} </div>
+			{{- end }}
+
+			{{ with .Highlights -}}
+				<ul class="highlights">
+				{{ range . }} <li>{{ . }}</li> {{ end }}
+				</ul>
+			{{- end }}
+
+			</article>
+		{{ end }}
+	</section>
+	{{ end }}
+	{{/* Block: Works ------------------------------------- End */}}
+
+	{{/* Block: Education ------------------------------- Start */}}
+	{{ if .Education }}
+	<section class="education">
+		<h2>Education</h2>
+		{{ range .Education }}
+		<article>
+
+		{{ if or .StartDate .EndDate }}
+			<div class="date">
+				{{ if and .StartDate .EndDate }}
+					<span class="startDate">{{.StartDate}}</span>
+					<span class="endDate">- {{.EndDate}}</span>
+
+				{{ else if .StartDate }}
+					<span class="startDate">{{.StartDate}}</span>
+					<span class="endDate">- Present</span>
+
+				{{ else if .EndDate }}
+					<span class="endDate">{{.EndDate}}</span>
+				{{ end }}
+			</div>
+		{{ end }}
+
+		{{ if .Institution }}
+			<div class="Institution"> {{ .Institution }} </div>
+		{{ end }}
+		{{ if .Area }}
+			<div class="area"> {{ .Area }} </div>
+		{{ end }}
+		{{ if .StudyType }}
+			<div class="studytype"> {{ .StudyType }} </div>
+		{{ end }}
+		{{ if .GPA }}
+			<div class="gpa"> GPA: {{ .GPA }} </div>
+		{{ end }}
+
+		  {{ with .Courses -}}
+				<ul class="highlights сourses">
+				{{ range . }} <li>{{ . }}</li> {{ end }}
+				</ul>
+			{{- end }}
+
+
+		</article>
+		{{ end }}
+	</section>
+	{{ end }}
+	{{/* Block: Education ------------------------------- Start */}}
+
+
+	{{/* Block: Awards ---------------------------------- Start */}}
+	{{ if .Awards }}
+	<section class="awards">
+		<h2>Awards</h2>
+		{{ range .Awards }}
+		<article>
+			{{ if .Title   }} <div class="title">   {{ .Title }}    </div> {{ end }}
+			{{ if .Date    }} <div class="date">    {{ .Date }}     </div> {{ end }}
+			{{ if .Awarder }} <div class="awarder"> {{ .Awarder }}  </div> {{ end }}
+			{{ if .Summary }} <div class="summary"> {{ .Summary }}  </div> {{ end }}
+		</article>
+		{{ end }}
+	</section>
+	{{ end }}
+	{{/* Block: Awards ---------------------------------- Start */}}
+
+	{{/* Block: Certifications -------------------------- Start */}}
+	{{ if .Certifications }}
+		<section class="certifications">
+		<h2>Certifications</h2>
+		{{ range .Certifications }}
+		<article>
+			{{ if .Title   }} <div class="title">   {{ .Title }}    </div> {{ end }}
+
+			{{ if or .Issue .Expiration }}
+				<div class="date">
+					{{ if and .Issue .Expiration }}
+						<span class="startDate issueDate">{{.Issue}}</span>
+						<span class="endDate expirationDate">- {{.Expiration}}</span>
+					{{ else if .Issue }}
+						<span class="startDate issueDate">{{.Issue}}</span>
+					{{ else if .Expiration }}
+						<span class="endDate expirationDat">{{.Expiration}}</span>
+					{{ end }}
+				</div>
+			{{ end }}
+
+			{{ if .Certifier }}
+				<div class="certifier"> {{ .Certifier }}  </div>
+			{{ end }}
+
+			{{ if or .CertificateID .CertificateURL }}
+			<div class="certificateid">
+				{{ if and  .CertificateID .CertificateURL }}
+
+				<dl>
+				<dt>Certificate ID</dt>
+				<dd><a href="{{ .CertificateURL }}">{{ .CertificateID }}</a></dd>
+				</dl>
+				{{ else if .CertificateURL }}
+				<dl>
+				<dt>Certificate URL</dt>
+				<dd><a href="{{ .CertificateURL }}">{{ .CertificateURL | unschema }}</a></dd>
+				</dl>
+
+				{{ else if .CertificateID }}
+				<dl>
+				<dt>Credential ID</dt>
+				<dd>{{ .CertificateID }}</dd>
+				</dl>
+				{{ end }}
+			</div>
+			{{ end }}
+
+		</article>
+		{{ end }}
+
+		</section>
+	{{ end }}
+	{{/* Block: Certifications ---------------------------- End */}}
+
+
+	{{/* Block: Publications ---------------------------- Start */}}
+	{{ if .Publications }}
+		<section class="publications">
+		<h2>Publications</h2>
+		{{ range .Publications }}
+			<article>
+				{{if .Name}}
+				<div class="name">
+					{{.Name}}
+				</div>
+				{{ end }}
+				{{if .Publisher}}
+				<div class="publisher">
+					{{.Publisher}}
+				</div>
+				{{ end }}
+				{{if .ReleaseDate}}
+				<div class="releaseDate">
+					{{.ReleaseDate}}
+				</div>
+				{{ end }}
+				{{if .Website}}
+				<div class="website">
+					<a href="{{ .Website }}">{{ .Website | unschema }}</a>
+				</div>
+				{{ end }}
+				{{if .Summary}}
+				<div class="summary">
+					<p>{{ .Summary}}</p>
+				</div>
+				{{ end }}
+			</article>
+		{{ end }}
+		</section>
+	{{ end }}
+	{{/* Block: Publications ---------------------------- Start */}}
+
+
+	{{/* Block: References ------------------------------ Start */}}
+	{{ if .Volunteers }}
+	<section class="volunteers">
+		<h2>Volunteers</h2>
+		{{ range .Volunteers }}
+		<article>
+
+			{{if .Organization}}
+				<h3 class="company">
+					{{.Organization}}
+				</h3>
+			{{ end }}
+
+			{{ if or .StartDate .EndDate }}
+				<div class="date">
+					{{ if and .StartDate .EndDate }}
+						<span class="startDate">{{.StartDate}}</span>
+						<span class="endDate">- {{.EndDate}}</span>
+
+					{{ else if .StartDate }}
+						<span class="startDate">{{.StartDate}}</span>
+						<span class="endDate">- Present</span>
+
+					{{ else if .EndDate }}
+						<span class="endDate">{{.EndDate}}</span>
+					{{ end }}
+				</div>
+			{{ end }}
+
+			{{ if .Position -}}
+				<div class="position"> {{- .Position }} </div> {{ end }}
+			{{ if .Website  -}}
+				<div class="website">  {{- .Website  }} </div> {{ end }}
+			{{ if .Summary  -}}
+				<div class="summary">  {{- .Summary  }} </div> {{ end }}
+
+			{{ with .Highlights -}}
+				<ul class="highlights">
+				{{ range . }} <li>{{ . }}</li> {{ end }}
+				</ul>
+			{{- end }}
+
+		</article>
+		{{ end }}
+	</section>
+	{{ end }}
+	{{/* Block: References ------------------------------ Start */}}
+
+	{{/* Block: References ------------------------------ Start */}}
+	{{ if .References }}
+		<section class="references">
+			<h3>References</h3>
+			{{ range .References -}}
+			<article>
+				<blockquote class="reference">{{ .Reference }}</blockquote>
+				<div class="by name">- by <strong>{{ .Name }}</strong></div>
+			</article>
+			{{- end }}
+		</section>
+	{{ end }}
+	{{/* Block: References -------------------------------- End */}}
+
+	</main>
+
+	<aside>
+		{{/* Block: Basic Contact Information ------------- Start */}}
+		{{ if or .Info.Email .Info.Phone .Info.Website }}
+		<section class="contact">
+			<h3>Contact</h3>
+			<dl>
+			{{ if .Info.Phone -}}
+			<dt class="phone">Phone</dt>
+			<dd>{{ .Info.Phone }}</dd>
+			{{- end }}
+
+			{{ if .Info.Email -}}
+			<dt class="email">Email</dt>
+			<dd>
+				<a href="mailto:{{ .Info.Email }}">{{ .Info.Email}}</a>
+			</dd>
+			{{- end }}
+
+			{{ if .Info.Website -}}
+			<dt class="website">Website</dt>
+			<dd>
+				<a href="{{ .Info.Website }}">{{ .Info.Website | unschema }}</a>
+			</dd>
+			{{- end }}
+			</dl>
+		</section>
+		{{ end }}
+		{{/* Block: Basic Contact Information --------------- End */}}
+
+		{{/* Block: Basic Locations ----------------------- Start */}}
+		{{ with .Info.Location }}
+			{{ if or .Address .City .Region .CountryCode .PostalCode}}
+			<section class="location">
+				<h3>Location</h3>
+
+				<article>
+					{{- if .Address }} {{ .Address }}, {{ end }}
+					{{- if .City }}{{ .City }},  {{ end}}
+					{{- if .Region }}{{ .Region }}, {{ end }}
+					{{- if .CountryCode }}{{ .CountryCode }},  {{ end }}
+					{{- if .PostalCode }}{{ .PostalCode }},  {{ end}}
+				</article>
+				</section>
+			{{ end }}
+		{{ end }}
+		{{/* Block: Basic Locations ----------------------- Start */}}
+
+		{{/* Block: Basic - Social Networks --------------- Start */}}
+		{{ with .Info.Profiles }}
+			<section>
+				<h3>Social</h3>
+				<dl>
+				{{ range . }}
+					<dt class="{{.Network | lower }}">{{ .Network }}</dt>
+					<dd>
+					{{ if and .URL .UserName }}
+							<a href="{{.URL}}">{{ .UserName }}</a>
+					{{ else if .URL }}
+							<a href="{{.URL}}">{{ .URL | unschema | nowww }}</a>
+					{{ else }}
+							{{ .UserName }}
+					{{ end }}
+					</dd>
+				{{ end }}
+				</dl>
+			</section>
+		{{ end }}
+		{{/* Block: Basic - Social Networks ----------------  End */}}
+
+
+   	{{/* Block: Skills -------------------------------- Start */}}
+		{{ if .Skills }}
+		<section class="skills">
+			<h3>Skills</h3>
+			{{ range .Skills }}
+				<article>
+					<h4>{{ .Name }} {{- if .Level }}: ( {{ .Level }} ) {{ end }}</h4>
+					{{ if .Keywords }}  {{ join .Keywords ", " }} {{ end }}
+				</article>
+			{{ end }}
+		</section>
+		{{ end }}
+		{{/* Block: Skills ---------------------------------- End */}}
+
+		{{/* Block: Interests ----------------------------- Start */}}
+		{{ if .Interests -}}
+		<section>
+			<h3>Interests</h3>
+			{{ range .Interests -}}
+			<article>
+				{{ .Name }}: {{ join .Keywords ", " }}
+			</article>
+			{{ end }}
+		</section>
+		{{- end }}
+		{{/* Block: Interests ------------------------------- End */}}
+
+		{{/* Block: Langauges ----------------------------- Start */}}
+		{{ if .Languages -}}
+		<section class="languages">
+			<h3>Languages</h3>
+			<ul>
+			{{ range .Languages -}}
+				<li>
+				{{- .Language }}
+				{{- if .Fluency -}}
+					<span>( {{ .Fluency  }} )</span>
+				{{- end -}}
+				</li>
+			{{- end}}
+			</ul>
+		</section>
+		{{- end }}
+		{{/* Block: Langauges -------------------------------- End */}}
+
+
+	</aside>
+</div>
+
+
+
+
+<script src="script.js"></script>
+</body>
+</html>
